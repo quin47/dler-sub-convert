@@ -1,0 +1,34 @@
+package ./client
+
+import (
+	"net/http"
+	"time"
+)
+
+func getSubscrption(subUrl string) {
+
+	tr := &http.Transport{
+		MaxIdleConns:       10,
+		IdleConnTimeout:    30 * time.Second,
+		DisableCompression: true,
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get(subUrl)
+	iou
+
+}
+
+type Sub struct {
+	[]Proxies `yaml:"proxies"`
+}
+
+type  Proxies struct{
+	server string
+	port int
+	name string
+	type string
+	password string
+	udp bool
+	skip-cert-verify bool
+
+}
