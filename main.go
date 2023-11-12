@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -26,6 +27,6 @@ func main() {
 	})
 
 	http.Handle("/dler/trogan/convert", fooHandler)
-	http.ListenAndServe(":8081", fooHandler)
+	log.Fatal(http.ListenAndServe(":8081", nil))
 
 }
