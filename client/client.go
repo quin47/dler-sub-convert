@@ -1,43 +1,42 @@
 package client
 
 import (
+	"io"
 	"log"
 	"net/http"
 	"time"
-	"io"
+
+	"gopkg.in/yaml.v3"
 )
 
-func GetSubscription(subUrl string) {
-
+func GetSubscription(subUrl string) Subs {
 	tr := &http.Transport{
 		MaxIdleConns:       10,
 		IdleConnTimeout:    30 * time.Second,
 		DisableCompression: true,
 	}
 	client := &http.Client{Transport: tr}
-	resp, err := client.Get(subUrl)
-	[]byte, error = io.ReadAll(resp.Body)
+	resp, _ := client.Get(subUrl)
+	byte, err := io.ReadAll(resp.Body)
 
-	yamlContent := string(byte)
+	if err != nil {
+		log.Printf("read error", err)
+	}
+	t := Subs{}
+	yaml.Unmarshal(byte, &t)
 
-	t := Sub{}
-	err := yaml.Unmarshal([]byte(data), &t)
+	return t
+}
 
-	log.Println(t)
-
+type Subs struct {
+	Proxies []Sub `yaml:"proxies,flow"`
 }
 
 type Sub struct {
-	[]Proxies `yaml:"proxies"`
-}
-
-type  Proxies struct{
-	server string
-	port int
-	name string
-	type string
-	password string
-	udp bool
-	skip-cert-verify bool
-
+	Server   string `yaml:"server"`
+	Port     int    `yaml:"port"`
+	Name     string `yaml:"name"`
+	TypeA    string `yaml:"type"`
+	Password string `yaml:"password"`
+	Udp      bool   `yaml:"udp"`
 }
