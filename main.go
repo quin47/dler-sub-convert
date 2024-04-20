@@ -26,7 +26,7 @@ func main() {
 
 	})
 
-	http.Handle("/dler/trogan/convert", fooHandler)
+	http.Handle("/subv/convert", fooHandler)
 	log.Fatal(http.ListenAndServe(":9822", nil))
 
 }
