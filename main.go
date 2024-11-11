@@ -17,7 +17,7 @@ func main() {
 		re := ""
 
 		for _, s := range subscription.Proxies {
-			re += "trojan://" + s.Password + "@" + s.Server + ":" + strconv.Itoa(s.Port) + "/?allowInsecure=true#" + s.Name + "\n"
+			re += "trojan://" + s.Password + "@" + s.Server + ":" + strconv.Itoa(s.Port) + "?allowInsecure=true#" + s.Name + "\n"
 		}
 		data := []byte(re)
 		str := base64.StdEncoding.EncodeToString(data)
