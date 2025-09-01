@@ -12,8 +12,7 @@ import (
 func main() {
 	fooHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		key := r.URL.Query()["key"][0]
-		subscription := client.GetSubscription("https://dler.cloud/subscribe/" + key + "?protocols=trojan&provider=clash")
-
+		subscription := client.GetSubscription("https://dler.cloud/subscribe/" + key + "??mu=trojan&lv=1%7C2%7C3")
 		re := ""
 
 		for _, s := range subscription.Proxies {
