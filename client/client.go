@@ -4,39 +4,22 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"time"
-
-	"gopkg.in/yaml.v3"
 )
 
-func GetSubscription(subUrl string) Subs {
-	tr := &http.Transport{
-		MaxIdleConns:       10,
-		IdleConnTimeout:    30 * time.Second,
-		DisableCompression: true,
-	}
-	client := &http.Client{Transport: tr}
-	resp, _ := client.Get(subUrl)
+func GetSubscription(subUrl string) string {
+
+	req, err := http.NewRequest("GET", subUrl, nil)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0")
+
+	cli := &http.Client{}
+	resp, err := cli.Do(req)
 	byte, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		log.Printf("read error", err)
 	}
-	t := Subs{}
-	yaml.Unmarshal(byte, &t)
+	base64Str := string(byte)
+	log.Println("resp" + base64Str)
 
-	return t
-}
-
-type Subs struct {
-	Proxies []Sub `yaml:"proxies,flow"`
-}
-
-type Sub struct {
-	Server   string `yaml:"server"`
-	Port     int    `yaml:"port"`
-	Name     string `yaml:"name"`
-	TypeA    string `yaml:"type"`
-	Password string `yaml:"password"`
-	Udp      bool   `yaml:"udp"`
+	return base64Str
 }
